@@ -6,7 +6,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "generate": "bun run src/index.ts"
+    "generate": "bun run src/index.ts",
+    "test": "bun test",
+    "test:watch": "bun test --watch"
   },
   "dependencies": {
     "puppeteer": "^22.0.0"
