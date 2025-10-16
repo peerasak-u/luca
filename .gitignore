@@ -50,11 +50,10 @@ output/*.pdf
 config/freelancer.json
 
 # User invoice data (may contain sensitive client information)
-data/*.json
+data/
 
 # Keep directory structure
 !output/.gitkeep
-!data/.gitkeep
 
 # Temporary/backup files
 *.tmp
