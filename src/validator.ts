@@ -7,7 +7,9 @@ import type { LineItem } from "./utils";
 export interface Customer {
   name: string;
   company?: string;
-  phone: string;
+  address: string;
+  taxId: string;
+  phone?: string;
 }
 
 export interface BaseDocument {
@@ -43,8 +45,9 @@ export interface FreelancerConfig {
   name: string;
   title: string;
   email: string;
-  phone: string;
+  phone?: string;
   address: string;
+  taxId: string;
   signature?: string; // Optional path to signature image file
   bankInfo: {
     bankName: string;
@@ -80,8 +83,17 @@ function validateCustomer(customer: any): string[] {
     errors.push("Customer name is required");
   }
 
-  if (!customer.phone || typeof customer.phone !== "string") {
-    errors.push("Customer phone is required");
+  if (!customer.address || typeof customer.address !== "string") {
+    errors.push("Customer address is required");
+  }
+
+  if (!customer.taxId || typeof customer.taxId !== "string") {
+    errors.push("Customer tax ID is required");
+  }
+
+  // Phone is optional
+  if (customer.phone && typeof customer.phone !== "string") {
+    errors.push("Customer phone must be a string");
   }
 
   return errors;
@@ -261,12 +273,17 @@ export function validateFreelancerConfig(config: any): ValidationResult {
     errors.push("Freelancer email is required");
   }
 
-  if (!config.phone || typeof config.phone !== "string") {
-    errors.push("Freelancer phone is required");
+  // Phone is optional
+  if (config.phone && typeof config.phone !== "string") {
+    errors.push("Freelancer phone must be a string");
   }
 
   if (!config.address || typeof config.address !== "string") {
     errors.push("Freelancer address is required");
+  }
+
+  if (!config.taxId || typeof config.taxId !== "string") {
+    errors.push("Freelancer tax ID is required");
   }
 
   if (!config.bankInfo) {

@@ -57,8 +57,9 @@ async function injectDataIntoTemplate(
   html = html.replace(/\{\{freelancer\.name\}\}/g, config.name);
   html = html.replace(/\{\{freelancer\.title\}\}/g, config.title || "");
   html = html.replace(/\{\{freelancer\.email\}\}/g, config.email);
-  html = html.replace(/\{\{freelancer\.phone\}\}/g, config.phone);
+  html = html.replace(/\{\{freelancer\.phone\}\}/g, config.phone ? ` | โทร: ${config.phone}` : "");
   html = html.replace(/\{\{freelancer\.address\}\}/g, config.address);
+  html = html.replace(/\{\{freelancer\.taxId\}\}/g, config.taxId);
 
   // Bank information
   html = html.replace(/\{\{bank\.name\}\}/g, config.bankInfo.bankName);
@@ -113,7 +114,9 @@ async function injectDataIntoTemplate(
     /\{\{customer\.company\}\}/g,
     data.customer.company || ""
   );
-  html = html.replace(/\{\{customer\.phone\}\}/g, data.customer.phone);
+  html = html.replace(/\{\{customer\.address\}\}/g, data.customer.address);
+  html = html.replace(/\{\{customer\.taxId\}\}/g, data.customer.taxId);
+  html = html.replace(/\{\{customer\.phone\}\}/g, data.customer.phone ? `<br>โทร: ${data.customer.phone}` : "");
 
   // Generate items rows
   const itemsHTML = data.items

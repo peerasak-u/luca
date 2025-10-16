@@ -96,6 +96,7 @@ Create `config/freelancer.json` with your details:
   "email": "somchai@email.com",
   "phone": "08-9999-8888",
   "address": "เลขที่ 123 ซ. เพชรบุรี 45 เขตราชเทวี กรุงเทพมหานคร 10400",
+  "taxId": "1-2345-67890-12-3",
   "bankInfo": {
     "bankName": "ธนาคารกรุงเทพ",
     "accountName": "นาย สมชาย ดีมี",
@@ -103,6 +104,8 @@ Create `config/freelancer.json` with your details:
   }
 }
 ```
+
+**Note**: Phone is optional and can be omitted if not needed.
 
 **Tip**: Copy `config/freelancer.example.json` to `config/freelancer.json` and update with your information.
 
@@ -167,6 +170,8 @@ The metadata counter will be updated if the manual number is higher than the cur
   "customer": {
     "name": "นาย ทดสอบ ตัวอย่าง",
     "company": "บริษัท เดโมนิค จำกัด",
+    "address": "เลขที่ 456 ถ. สาทร เขตสาทร กรุงเทพมหานคร 10120",
+    "taxId": "0-1055-12345-67-8",
     "phone": "02-111-2222"
   },
   "items": [
@@ -190,13 +195,15 @@ The metadata counter will be updated if the manual number is higher than the cur
 ```
 
 **Fields:**
-- `documentNumber` (string, required): Invoice number (e.g., "INV-2024-001")
+- `documentNumber` (string, required): Invoice number (e.g., "INV-2024-001" or "auto" for auto-numbering)
 - `issueDate` (string, required): Issue date in YYYY-MM-DD format
 - `dueDate` (string, required): Payment due date in YYYY-MM-DD format
 - `customer` (object, required): Customer information
-  - `name` (string): Customer name
+  - `name` (string, required): Customer name
   - `company` (string, optional): Company name
-  - `phone` (string): Contact phone
+  - `address` (string, required): Customer address
+  - `taxId` (string, required): Tax identification number
+  - `phone` (string, optional): Contact phone
 - `items` (array, required): Line items
   - `description` (string): Item description
   - `quantity` (number): Quantity
@@ -215,7 +222,13 @@ The metadata counter will be updated if the manual number is higher than the cur
   "documentNumber": "QT-2024-001",
   "issueDate": "2024-10-15",
   "validUntil": "2024-11-15",
-  "customer": { /* same as invoice */ },
+  "customer": {
+    "name": "นาย ลูกค้า ทดสอบ",
+    "company": "บริษัท ตัวอย่าง จำกัด",
+    "address": "เลขที่ 789 ถ. สุขุมวิท เขตคลองเตย กรุงเทพมหานคร 10110",
+    "taxId": "0-1055-98765-43-2",
+    "phone": "02-333-4444"
+  },
   "items": [ /* same structure as invoice */ ],
   "taxRate": 0.07,
   "taxType": "vat",
@@ -230,8 +243,9 @@ The metadata counter will be updated if the manual number is higher than the cur
 ```
 
 **Differences from Invoice:**
-- `validUntil` (string): Quote validity date (replaces `dueDate`)
+- `validUntil` (string, required): Quote validity date (replaces `dueDate`)
 - `paymentTerms` (array, optional): Payment terms as array of strings
+- Customer fields: Same requirements as invoice (address and taxId required, phone optional)
 
 ### Receipt Schema
 
@@ -242,7 +256,13 @@ The metadata counter will be updated if the manual number is higher than the cur
   "paymentDate": "2024-10-15",
   "paymentMethod": "โอนเงิน",
   "referenceNumber": "INV-2024-001",
-  "customer": { /* same as invoice */ },
+  "customer": {
+    "name": "นาย ทดสอบ ตัวอย่าง",
+    "company": "บริษัท เดโมนิค จำกัด",
+    "address": "เลขที่ 456 ถ. สาทร เขตสาทร กรุงเทพมหานคร 10120",
+    "taxId": "0-1055-12345-67-8",
+    "phone": "02-111-2222"
+  },
   "items": [ /* same structure as invoice */ ],
   "taxRate": 0.03,
   "taxType": "withholding",
@@ -258,11 +278,12 @@ The metadata counter will be updated if the manual number is higher than the cur
 ```
 
 **Differences from Invoice:**
-- `paymentDate` (string): Date payment was received (replaces `dueDate`)
-- `paymentMethod` (string): Payment method (e.g., "โอนเงิน", "เงินสด")
+- `paymentDate` (string, required): Date payment was received (replaces `dueDate`)
+- `paymentMethod` (string, required): Payment method (e.g., "โอนเงิน", "เงินสด")
 - `referenceNumber` (string, optional): Reference to original invoice
-- `paidAmount` (number): Amount actually paid
+- `paidAmount` (number, required): Amount actually paid
 - `paymentTerms` (array, optional): Payment terms as array of strings (useful for showing payment milestone context)
+- Customer fields: Same requirements as invoice (address and taxId required, phone optional)
 
 ## Document Types & Color Themes
 

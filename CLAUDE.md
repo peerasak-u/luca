@@ -85,9 +85,11 @@ All templates use a placeholder injection system with `{{variable}}` syntax:
 ### Common Template Placeholders
 
 All templates support:
-- **Freelancer**: `{{freelancer.name}}`, `{{freelancer.title}}`, `{{freelancer.email}}`, `{{freelancer.phone}}`, `{{freelancer.address}}`
+- **Freelancer**: `{{freelancer.name}}`, `{{freelancer.title}}`, `{{freelancer.email}}`, `{{freelancer.phone}}`, `{{freelancer.address}}`, `{{freelancer.taxId}}`
+  - Note: `{{freelancer.phone}}` is conditionally rendered with " | โทร: " prefix if present
 - **Bank**: `{{bank.name}}`, `{{bank.accountName}}`, `{{bank.accountNumber}}`, `{{bank.branch}}`
-- **Customer**: `{{customer.name}}`, `{{customer.company}}`, `{{customer.phone}}`
+- **Customer**: `{{customer.name}}`, `{{customer.company}}`, `{{customer.address}}`, `{{customer.taxId}}`, `{{customer.phone}}`
+  - Note: `{{customer.phone}}` is conditionally rendered with "<br>โทร: " prefix if present
 - **Items**: `{{items}}` - Generated dynamically as table rows
 - **Calculations**: `{{subtotal}}`, `{{taxLabel}}`, `{{taxAmount}}`, `{{total}}`
 - **Notes**: `{{notes}}`
