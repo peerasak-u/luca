@@ -13,13 +13,37 @@ import type {
 } from "./validator";
 
 /**
+ * Load signature image as base64 data URI
+ */
+async function loadSignatureBase64(
+  signaturePath: string
+): Promise<string | null> {
+  try {
+    const file = Bun.file(signaturePath);
+    if (!(await file.exists())) {
+      console.warn(`Warning: Signature file not found: ${signaturePath}`);
+      return null;
+    }
+    const buffer = await file.arrayBuffer();
+    const base64 = Buffer.from(buffer).toString("base64");
+    const ext = signaturePath.split(".").pop()?.toLowerCase();
+    const mimeType = ext === "png" ? "image/png" : "image/jpeg";
+    return `data:${mimeType};base64,${base64}`;
+  } catch (error) {
+    console.warn(`Warning: Failed to load signature: ${error}`);
+    return null;
+  }
+}
+
+/**
  * Inject data into HTML template
  */
-function injectDataIntoTemplate(
+async function injectDataIntoTemplate(
   template: string,
   data: DocumentData,
-  config: FreelancerConfig
-): string {
+  config: FreelancerConfig,
+  signatureDataUri: string | null
+): Promise<string> {
   let html = template;
 
   // Calculate totals
@@ -134,6 +158,17 @@ function injectDataIntoTemplate(
   // Notes
   html = html.replace(/\{\{notes\}\}/g, data.notes || "");
 
+  // Signature
+  if (signatureDataUri) {
+    html = html.replace(
+      /\{\{signature\}\}/g,
+      `<img src="${signatureDataUri}" alt="Signature" style="max-width: 200px; height: auto;">`
+    );
+  } else {
+    // Leave blank for manual signing
+    html = html.replace(/\{\{signature\}\}/g, "");
+  }
+
   return html;
 }
 
@@ -156,8 +191,13 @@ export async function generatePDF(
 
   const template = await templateFile.text();
 
+  // Load signature if provided
+  const signatureDataUri = config.signature
+    ? await loadSignatureBase64(config.signature)
+    : null;
+
   // Inject data into template
-  const html = injectDataIntoTemplate(template, data, config);
+  const html = await injectDataIntoTemplate(template, data, config, signatureDataUri);
 
   // Launch Puppeteer
   const browser = await puppeteer.launch({

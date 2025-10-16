@@ -45,6 +45,7 @@ export interface FreelancerConfig {
   email: string;
   phone: string;
   address: string;
+  signature?: string; // Optional path to signature image file
   bankInfo: {
     bankName: string;
     accountName: string;

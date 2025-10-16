@@ -4,6 +4,8 @@
   "email": "somchai@email.com",
   "phone": "08-9999-8888",
   "address": "เลขที่ 123 ซ. เพชรบุรี 45 เขตราชเทวี กรุงเทพมหานคร 10400",
+  "_comment_signature": "Optional: Path to signature image (PNG/JPG). Leave blank or remove to add signature later with PDF editor",
+  "signature": "config/signature.png",
   "bankInfo": {
     "bankName": "ธนาคารกรุงเทพ",
     "accountName": "นาย สมชาย ดีมี",
