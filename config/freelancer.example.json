@@ -1,0 +1,14 @@
+{
+  "name": "นาย สมชาย ดีมี",
+  "title": "Web Developer & Designer",
+  "email": "somchai@email.com",
+  "phone": "08-9999-8888",
+  "address": "เลขที่ 123 ซ. เพชรบุรี 45 เขตราชเทวี กรุงเทพมหานคร 10400",
+  "bankInfo": {
+    "bankName": "ธนาคารกรุงเทพ",
+    "accountName": "นาย สมชาย ดีมี",
+    "accountNumber": "123-456-789-0",
+    "branch": "สาขาสยาม",
+    "swift": "BKKBTHBK"
+  }
+}

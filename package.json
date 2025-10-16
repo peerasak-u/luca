@@ -1,0 +1,20 @@
+{
+  "name": "invoice-gen",
+  "version": "1.0.0",
+  "description": "CLI tool for generating financial documents (invoices, quotations, receipts) as PDF",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "generate": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun install:*)",
+      "Bash(bun run generate:*)",
+      "Bash(git init:*)",
+      "Bash(git -C /Users/peerasak/Workspace/indie/invoice-gen status)",
+      "Bash(git -C /Users/peerasak/Workspace/indie/invoice-gen diff --cached)",
+      "Bash(git -C /Users/peerasak/Workspace/indie/invoice-gen log --oneline -5)",
+      "Bash(git -C /Users/peerasak/Workspace/indie/invoice-gen add .)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
