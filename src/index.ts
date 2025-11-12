@@ -41,14 +41,14 @@ Arguments:
   --customer       Path to customer JSON file (required)
 
 Options:
-  --output <path>  Custom output PDF path (default: output/{type}-{number}.pdf)
-  --config <path>  Path to freelancer config (default: config/freelancer.json)
-  --help           Show this help message
+  --output <path>   Custom output PDF path (default: output/{type}-{number}.pdf)
+  --profile <path>  Path to freelancer profile (default: config/freelancer.json)
+  --help            Show this help message
 
 Examples:
   bun run generate invoice data/invoice-001.json --customer customers/acme-corp.json
   bun run generate quotation data/quote-001.json --customer customers/demo.json --output custom/path.pdf
-  bun run generate receipt data/receipt-001.json --customer customers/test.json --config config/freelancer.json
+  bun run generate receipt data/receipt-001.json --customer customers/test.json --profile config/freelancer.json
   `);
 }
 
@@ -96,7 +96,7 @@ function parseArgs(args: string[]) {
     } else if (arg === "--output" && nextArg) {
       options.outputPath = nextArg;
       i++;
-    } else if (arg === "--config" && nextArg) {
+    } else if (arg === "--profile" && nextArg) {
       options.configPath = nextArg;
       i++;
     }
@@ -156,9 +156,9 @@ async function main() {
     process.exit(1);
   }
 
-  // Check if config file exists
+  // Check if profile file exists
   if (!(await fileExists(options.configPath))) {
-    console.error(`Error: Config file not found: ${options.configPath}`);
+    console.error(`Error: Profile file not found: ${options.configPath}`);
     console.error(
       "Tip: Copy config/freelancer.example.json to config/freelancer.json"
     );
@@ -168,14 +168,14 @@ async function main() {
   try {
     console.log(`📄 Generating ${options.type}...`);
 
-    // Load freelancer config
-    console.log(`📋 Loading config from ${options.configPath}...`);
+    // Load freelancer profile
+    console.log(`📋 Loading profile from ${options.configPath}...`);
     const config = await readJSON<FreelancerConfig>(options.configPath);
 
-    // Validate config
+    // Validate profile
     const configValidation = validateFreelancerConfig(config);
     if (!configValidation.valid) {
-      console.error("Error: Invalid freelancer config:");
+      console.error("Error: Invalid freelancer profile:");
       configValidation.errors.forEach((err) => console.error(`  - ${err}`));
       process.exit(1);
     }

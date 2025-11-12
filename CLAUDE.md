@@ -23,7 +23,7 @@ bun run generate <type> <input-json> --customer <customer-json> [options]
 # Examples - Manual numbering
 bun run generate invoice examples/invoice.json --customer customers/acme-corp.json
 bun run generate quotation examples/quotation.json --customer customers/demo-company.json --output custom/path.pdf
-bun run generate receipt examples/receipt.json --customer customers/test-customer.json --config config/freelancer.json
+bun run generate receipt examples/receipt.json --customer customers/test-customer.json --profile config/freelancer.json
 
 # Examples - Auto-numbering
 bun run generate invoice examples/invoice-auto.json --customer customers/acme-corp.json
@@ -37,14 +37,14 @@ bun run generate receipt examples/receipt-auto.json --customer customers/acme-co
 
 1. **`src/index.ts`** - CLI entry point
    - Parses command-line arguments including `--customer` (required)
-   - Validates input files (document, customer, config)
+   - Validates input files (document, customer, profile)
    - Handles auto-numbering logic
    - Orchestrates the generation process
 
 2. **`src/validator.ts`** - JSON schema validation
    - Defines TypeScript interfaces for all document types
    - Validation functions for Invoice, Quotation, Receipt, Customer
-   - Validates freelancer config
+   - Validates freelancer profile
    - Accepts "auto" as valid documentNumber
    - Customer data is separate from document data
 
@@ -117,7 +117,7 @@ All templates support:
 
 ## Configuration
 
-### Freelancer Configuration (Required)
+### Freelancer Profile (Required)
 Before first use, create `config/freelancer.json`:
 ```bash
 cp config/freelancer.example.json config/freelancer.json
@@ -171,7 +171,7 @@ The tool uses a **separation of concerns** approach:
 - Contains: name, company, address, taxId, phone
 - Reusable across multiple documents
 
-**Freelancer Config** (`config/freelancer.json`):
+**Freelancer Profile** (`config/freelancer.json`):
 - Contains: your business info, bank details
 - Set once, used for all documents
 
